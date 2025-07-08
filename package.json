@@ -6,15 +6,19 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "lint": "eslint .",
+    "lint-staged": "lint-staged",
     "start": "yarn clean:watchman; react-native start --reset-cache",
     "clean:watchman": "watchman watch-del-all",
     "tsc": "tsc -p ./tsconfig.json --noEmit",
-    "test": "jest"
+    "test": "jest",
+    "prepare": "husky",
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write ."
   },
   "dependencies": {
+    "@react-native/new-app-screen": "0.80.1",
     "react": "19.1.0",
-    "react-native": "0.80.1",
-    "@react-native/new-app-screen": "0.80.1"
+    "react-native": "0.80.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -31,8 +35,10 @@
     "@types/react": "^19.1.0",
     "@types/react-test-renderer": "^19.1.0",
     "eslint": "^8.19.0",
+    "husky": "^9.1.7",
     "jest": "^29.6.3",
-    "prettier": "2.8.8",
+    "lint-staged": "^16.1.2",
+    "prettier": "3.6.2",
     "react-test-renderer": "19.1.0",
     "typescript": "5.0.4"
   },

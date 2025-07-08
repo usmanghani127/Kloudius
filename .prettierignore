@@ -1,0 +1,11 @@
+# Ignore artifacts:
+build
+coverage
+node_modules
+dist
+.vscode
+.idea
+.DS_Store
+*.log
+android/*
+ios/*
