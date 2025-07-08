@@ -1,0 +1,17 @@
+{
+  "login": {
+    "emailPlaceholder": "Email",
+    "emailInvalid": "Email is invalid",
+    "emailRequired": "Email is required",
+    "passwordPlaceholder": "Password",
+    "passwordRequired": "Password is required",
+    "forgotPasswordLabel": "Forgot Password?",
+    "loginButton": "Log In",
+    "errorTitle": "Yikes!",
+    "errorButton": "Try Again",
+    "errorMessage": "Email and password combination do not match our records."
+  },
+  "home": {
+    "success": "Success"
+  }
+}

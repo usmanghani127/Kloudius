@@ -1,3 +1,14 @@
 {
-  "extends": "@react-native/typescript-config"
+  "extends": "@react-native/typescript-config",
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "baseUrl": "src",
+    "paths": {
+      "@components": ["common/components/index.ts"],
+      "@features": ["features/index.ts"],
+      "@theme": ["common/theme/index.ts"],
+      "@navigation/*": ["navigation/*"],
+      "@localization/*": ["localization/*"]
+    }
+  }
 }
