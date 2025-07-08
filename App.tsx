@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
+import { PaperTheme } from '@theme';
 import { PaperProvider } from 'react-native-paper';
 import { StackNavigator } from './src/navigation/stack';
-import { PaperTheme } from './src/theme/colors';
 
 const App = () => {
   return (
