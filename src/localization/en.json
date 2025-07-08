@@ -1,17 +1,52 @@
 {
   "login": {
-    "emailPlaceholder": "Email",
-    "emailInvalid": "Email is invalid",
-    "emailRequired": "Email is required",
-    "passwordPlaceholder": "Password",
-    "passwordRequired": "Password is required",
+    "email": {
+      "placeholder": "Email",
+      "invalid": "Email is invalid",
+      "required": "Email is required"
+    },
+    "password": {
+      "placeholder": "Password",
+      "required": "Password is required"
+    },
     "forgotPasswordLabel": "Forgot Password?",
+
     "loginButton": "Log In",
-    "errorTitle": "Yikes!",
-    "errorButton": "Try Again",
-    "errorMessage": "Email and password combination do not match our records."
+
+    "error": {
+      "title": "Yikes!",
+      "button": "Try Again",
+      "message": "Email and password combination do not match our records."
+    },
+    "signupButton": "Create a new Account"
   },
-  "home": {
-    "success": "Success"
+  "signup": {
+    "firstName": {
+      "placeholder": "First Name",
+      "invalid": "First Name is invalid",
+      "required": "First Name is required"
+    },
+    "lastName": {
+      "placeholder": "Last Name",
+      "invalid": "Last Name is invalid",
+      "required": "Last Name is required"
+    },
+    "email": {
+      "placeholder": "Email",
+      "invalid": "Email is invalid",
+      "required": "Email is required"
+    },
+    "password": {
+      "placeholder": "Password",
+      "required": "Password is required",
+      "invalid": "Password is invalid"
+    },
+    "signupButton": "Create Account",
+
+    "error": {
+      "title": "Yikes!",
+      "button": "Try Again",
+      "message": "Something went wrong"
+    }
   }
 }

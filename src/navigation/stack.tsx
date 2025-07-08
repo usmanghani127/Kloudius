@@ -11,10 +11,12 @@ export const StackNavigator = () => {
 
   return (
     <Stack.Navigator
+      initialRouteName={'Login'}
       screenOptions={{
         headerShown: false,
       }}
     >
+      <Stack.Screen name={RouteKeys.SIGNUP} component={Authentication.SignupScreen} />
       <Stack.Screen name={RouteKeys.LOGIN} component={Authentication.LoginScreen} />
     </Stack.Navigator>
   );
