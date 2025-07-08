@@ -6,7 +6,9 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "lint": "eslint .",
-    "start": "react-native start",
+    "start": "yarn clean:watchman; react-native start --reset-cache",
+    "clean:watchman": "watchman watch-del-all",
+    "tsc": "tsc -p ./tsconfig.json --noEmit",
     "test": "jest"
   },
   "dependencies": {
