@@ -1,24 +1,16 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+import { PaperProvider } from 'react-native-paper';
 import { StackNavigator } from './src/navigation/stack';
+import { PaperTheme } from './src/theme/colors';
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
+const App = () => {
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <NavigationContainer>
+    <NavigationContainer>
+      <PaperProvider theme={PaperTheme}>
         <StackNavigator />
-      </NavigationContainer>
-    </View>
+      </PaperProvider>
+    </NavigationContainer>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+};
 
 export default App;

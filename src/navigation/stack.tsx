@@ -1,7 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
-import { Button, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
+import { Button } from 'react-native-paper';
 import { StackNavigatorParamList } from './types';
 
 const HomeScreen = () => {
@@ -18,7 +19,9 @@ const LandingScreen = () => {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Landing Screen</Text>
-      <Button onPress={() => navigate('Home')} title="Navigate to Home Screen" />
+      <Button icon="coffee-outline" mode="contained" onPress={() => navigate('Home')}>
+        Navigate to Home Screen
+      </Button>
     </View>
   );
 };
