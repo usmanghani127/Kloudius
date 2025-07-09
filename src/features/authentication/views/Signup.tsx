@@ -1,17 +1,18 @@
 import { AppButton, ErrorState, InputField, LoadingState } from '@components';
-import { RouteKeys } from '@navigation/types.ts';
+import { RouteKeys, StackScreenProps } from '@navigation/types.ts';
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Alert, SafeAreaView } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { TextInput } from 'react-native-paper';
 import { regex } from '../regex.ts';
 import { SignupInputFieldFormKeys } from '../types.ts';
 import styles from './styles.ts';
 
 export const Signup = () => {
   const { t } = useTranslation();
+  const { goBack } = useNavigation<StackScreenProps<RouteKeys.SIGNUP>>();
   const {
     handleSubmit,
     control,
@@ -20,7 +21,6 @@ export const Signup = () => {
   } = useForm<SignupInputFieldFormKeys>({
     mode: 'onSubmit',
   });
-  const [secureTextInput, setSecureTextInput] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
 
   const isLoading = false;
@@ -78,29 +78,34 @@ export const Signup = () => {
           name={'password'}
           control={control}
           errors={errors}
-          required={true}
+          required
+          secureTextEntry
           pattern={regex.password}
           requiredMessage={t('signup.password.required')}
           placeholder={t('signup.password.placeholder')}
           errorMessage={t('signup.password.invalid')}
           onSubmitEditing={handleSubmit(onSubmit)}
           returnKeyType={'done'}
-          secureTextEntry={secureTextInput}
-          right={<TextInput.Icon icon={'eye'} onPress={() => setSecureTextInput(!secureTextInput)} />}
         />
         <AppButton
           testID={`${RouteKeys.SIGNUP}: signupButton`}
           onPress={handleSubmit(onSubmit)}
           label={t('signup.signupButton')}
         />
+        <AppButton
+          type="secondary"
+          testID={`${RouteKeys.SIGNUP}: backToLoginButton`}
+          onPress={goBack}
+          label={t('signup.backToLoginButton')}
+        />
       </KeyboardAwareScrollView>
       <LoadingState visible={isLoading} testID={`${RouteKeys.SIGNUP}: loadingState`} />
       <ErrorState
         testID={`${RouteKeys.SIGNUP}: errorState`}
         visible={errorMessage?.length > 0}
-        title={t('signup.errorTitle')}
+        title={t('signup.error.title')}
         message={errorMessage}
-        actionButtonText={t('signup.errorButton')}
+        actionButtonText={t('signup.error.button')}
         actionButtonOnPress={() => setErrorMessage('')}
       />
     </SafeAreaView>

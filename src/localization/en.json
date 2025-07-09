@@ -42,6 +42,22 @@
       "invalid": "Password is invalid"
     },
     "signupButton": "Create Account",
+    "backToLoginButton": "Back to Login",
+
+    "error": {
+      "title": "Yikes!",
+      "button": "Try Again",
+      "message": "Something went wrong"
+    }
+  },
+  "forgotPassword": {
+    "email": {
+      "placeholder": "Email",
+      "invalid": "Email is invalid",
+      "required": "Email is required"
+    },
+    "submitButton": "Send Reset Link",
+    "backToLoginButton": "Back to Login",
 
     "error": {
       "title": "Yikes!",

@@ -6,7 +6,6 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Alert, SafeAreaView } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { TextInput } from 'react-native-paper';
 import { regex } from '../regex.ts';
 import { LoginInputFieldFormKeys } from '../types.ts';
 import styles from './styles.ts';
@@ -23,7 +22,6 @@ export const Login = () => {
     mode: 'onSubmit',
     defaultValues: { email: 'rajausman127@gmail.com', password: 'Qwerty@123' },
   });
-  const [secureTextInput, setSecureTextInput] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
 
   const isLoading = false;
@@ -55,13 +53,12 @@ export const Login = () => {
           name={'password'}
           control={control}
           errors={errors}
-          required={true}
+          required
+          secureTextEntry
           requiredMessage={t('login.password.required')}
           placeholder={t('login.password.placeholder')}
           onSubmitEditing={handleSubmit(onSubmit)}
           returnKeyType={'done'}
-          secureTextEntry={secureTextInput}
-          right={<TextInput.Icon icon={'eye'} onPress={() => setSecureTextInput(!secureTextInput)} />}
         />
         <AppButton
           type="secondary"

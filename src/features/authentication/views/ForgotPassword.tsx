@@ -43,25 +43,31 @@ export const ForgotPassword = () => {
           errors={errors}
           required={true}
           pattern={regex.email}
-          requiredMessage={t('forgotPassword.email.required', 'Email is required')}
-          errorMessage={t('forgotPassword.email.invalid', 'Invalid email')}
-          placeholder={t('forgotPassword.email.placeholder', 'Enter your email')}
+          requiredMessage={t('forgotPassword.email.required')}
+          errorMessage={t('forgotPassword.email.invalid')}
+          placeholder={t('forgotPassword.email.placeholder')}
           onSubmitEditing={handleSubmit(onSubmit)}
           returnKeyType={'done'}
         />
         <AppButton
           testID={`${RouteKeys.FORGOT_PASSWORD}: submitButton`}
           onPress={handleSubmit(onSubmit)}
-          label={t('forgotPassword.submitButton', 'Send Reset Link')}
+          label={t('forgotPassword.submitButton')}
+        />
+        <AppButton
+          type="secondary"
+          testID={`${RouteKeys.FORGOT_PASSWORD}: backToLoginButton`}
+          onPress={goBack}
+          label={t('forgotPassword.backToLoginButton')}
         />
       </KeyboardAwareScrollView>
       <LoadingState visible={isLoading} testID={`${RouteKeys.FORGOT_PASSWORD}: loadingState`} />
       <ErrorState
         testID={`${RouteKeys.FORGOT_PASSWORD}: errorState`}
         visible={errorMessage?.length > 0}
-        title={t('forgotPassword.error.title', 'Error')}
+        title={t('forgotPassword.error.title')}
         message={errorMessage}
-        actionButtonText={t('forgotPassword.error.button', 'OK')}
+        actionButtonText={t('forgotPassword.error.button')}
         actionButtonOnPress={() => setErrorMessage('')}
       />
     </SafeAreaView>

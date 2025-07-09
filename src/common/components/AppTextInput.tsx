@@ -17,6 +17,7 @@ type InputFieldType = TextInputProps & {
 };
 
 export const InputField = (props: InputFieldType) => {
+  const [showPassword, setShowPassword] = React.useState(false);
   const {
     name,
     control,
@@ -25,6 +26,7 @@ export const InputField = (props: InputFieldType) => {
     pattern = '^.+$', // accepts any input
     errorMessage = '',
     errors,
+    secureTextEntry,
     ...rest
   } = props;
 
@@ -36,6 +38,7 @@ export const InputField = (props: InputFieldType) => {
         <View style={styles.fieldWrapper}>
           <TextInput
             ref={ref}
+            secureTextEntry={secureTextEntry && !showPassword}
             style={styles.field}
             onChangeText={onChange}
             value={value}
@@ -44,6 +47,14 @@ export const InputField = (props: InputFieldType) => {
             submitBehavior={'blurAndSubmit'}
             textColor={AppTheme.black}
             error={!!errors[name]}
+            right={
+              secureTextEntry && (
+                <TextInput.Icon
+                  icon={showPassword ? 'eye-off' : 'eye'}
+                  onPress={() => setShowPassword(!showPassword)}
+                />
+              )
+            }
             {...rest}
           />
           <HelperText type="error" visible={!!errors[name]}>
