@@ -2,18 +2,26 @@ import { AppButton, LoadingState, ScreenWrapper } from '@components';
 import { RouteKeys } from '@navigation/types';
 import { AppTheme } from '@theme';
 import { InfoMessage } from 'common/components/ErrorState';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 import { useAuth } from '../../authentication/contexts/authContext';
+import { useUserProfile } from '../contexts/userProfileContext';
 
 export const Home: React.FC = () => {
   const { t } = useTranslation();
   const { logout, authError, clearAuthError, authLoading } = useAuth();
+  const { user, getUser, userLoading, userError } = useUserProfile();
 
-  const firstName = 'Raja';
-  const lastName = 'Usman';
-  const email = 'rajausman127official@gmail.com';
+  const { email, firstName, lastName } = user || {};
+
+  useEffect(
+    () => {
+      getUser();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
   return (
     <>
@@ -34,13 +42,13 @@ export const Home: React.FC = () => {
         </View>
         <AppButton testID={`${RouteKeys.HOME}: logoutButton`} onPress={logout} label={t('home.logout')} />
       </ScreenWrapper>
-      <LoadingState visible={authLoading} testID={`${RouteKeys.HOME}: loadingState`} />
+      <LoadingState visible={authLoading || userLoading} testID={`${RouteKeys.HOME}: loadingState`} />
       <InfoMessage
         type="error"
         testID={`${RouteKeys.SIGNUP}: errorState`}
-        visible={!!authError}
+        visible={!!authError || !!userError}
         title={t('signup.error.title')}
-        message={authError ?? ''}
+        message={authError || userError || ''}
         actionButtonText={t('signup.error.button')}
         actionButtonOnPress={clearAuthError}
       />

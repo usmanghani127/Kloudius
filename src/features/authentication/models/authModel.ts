@@ -4,7 +4,7 @@
 import { LoginInputFieldFormKeys, SignupInputFieldFormKeys } from '../types';
 
 export const login = async ({ email, password }: LoginInputFieldFormKeys): Promise<string> => {
-  await new Promise((resolve) => setTimeout(resolve, 3000));
+  await new Promise((resolve) => setTimeout(resolve, 2000));
   console.log('AuthModel: Logging in with:', email, password);
   if (email === 'test@example.com' && password === 'Qwerty@123') {
     return 'mocked-jwt-token';
@@ -13,11 +13,11 @@ export const login = async ({ email, password }: LoginInputFieldFormKeys): Promi
 };
 
 export const signup = async (payload: SignupInputFieldFormKeys): Promise<void> => {
-  await new Promise((resolve) => setTimeout(resolve, 3000));
+  await new Promise((resolve) => setTimeout(resolve, 2000));
   console.log('AuthModel: Creating new account with: ', payload);
 };
 
 export const logout = async (): Promise<void> => {
-  await new Promise((resolve) => setTimeout(resolve, 3000));
+  await new Promise((resolve) => setTimeout(resolve, 2000));
   console.log('AuthModel: Logging out');
 };

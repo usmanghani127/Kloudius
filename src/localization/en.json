@@ -39,7 +39,7 @@
     "password": {
       "placeholder": "Password",
       "required": "Password is required",
-      "invalid": "Password is invalid"
+      "invalid": "Password must be 6-12 characters long, contains at least one uppercase letter, one lowercase letter, one number, and one special character."
     },
     "signupButton": "Create Account",
     "backToLoginButton": "Back to Login",
