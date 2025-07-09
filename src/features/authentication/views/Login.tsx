@@ -10,7 +10,7 @@ import { LoginInputFieldFormKeys } from '../types.ts';
 
 export const Login = () => {
   const { t } = useTranslation();
-  const { login, authError, clearAuthError } = useAuth();
+  const { login, authError, clearAuthError, authLoading } = useAuth();
   const { navigate } = useNavigation<StackScreenProps<RouteKeys.LOGIN>>();
   const {
     handleSubmit,
@@ -22,8 +22,6 @@ export const Login = () => {
     mode: 'onSubmit',
     defaultValues: { email: 'test@example.com', password: 'Qwerty@123' },
   });
-
-  const isLoading = false;
 
   const onSubmit = () => login(watch('email'), watch('password'));
 
@@ -73,7 +71,7 @@ export const Login = () => {
           label={t('login.signupButton')}
         />
       </ScreenWrapper>
-      <LoadingState visible={isLoading} testID={`${RouteKeys.LOGIN}: loadingState`} />
+      <LoadingState visible={authLoading} testID={`${RouteKeys.LOGIN}: loadingState`} />
       <ErrorState
         testID={`${RouteKeys.LOGIN}: errorState`}
         visible={!!authError}

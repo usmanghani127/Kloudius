@@ -10,7 +10,7 @@ import { SignupInputFieldFormKeys } from '../types.ts';
 
 export const Signup = () => {
   const { t } = useTranslation();
-  const { logout, authError, clearAuthError } = useAuth();
+  const { logout, authError, clearAuthError, authLoading } = useAuth();
   const { goBack } = useNavigation<StackScreenProps<RouteKeys.SIGNUP>>();
   const {
     handleSubmit,
@@ -20,8 +20,6 @@ export const Signup = () => {
   } = useForm<SignupInputFieldFormKeys>({
     mode: 'onSubmit',
   });
-
-  const isLoading = false;
 
   const onSubmit = logout;
 
@@ -93,7 +91,7 @@ export const Signup = () => {
           label={t('signup.backToLoginButton')}
         />
       </ScreenWrapper>
-      <LoadingState visible={isLoading} testID={`${RouteKeys.SIGNUP}: loadingState`} />
+      <LoadingState visible={authLoading} testID={`${RouteKeys.SIGNUP}: loadingState`} />
       <ErrorState
         testID={`${RouteKeys.SIGNUP}: errorState`}
         visible={!!authError}

@@ -4,6 +4,7 @@ import { useAuthViewModel } from '../viewModels/authViewModel';
 type AuthContextType = {
   authToken: string | null;
   authError: string | null;
+  authLoading: boolean;
   clearAuthError: () => void;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
@@ -15,19 +16,28 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { login, logout } = useAuthViewModel();
   const [authToken, setAuthToken] = useState<string | null>(null);
   const [authError, setAuthError] = useState<string | null>(null);
+  const [authLoading, setAuthLoading] = useState<boolean>(false);
 
   const signIn = async (email: string, password: string) => {
     try {
+      setAuthLoading(true);
       const token = await login(email, password);
       setAuthToken(token);
+      setAuthLoading(false);
     } catch (error) {
       setAuthError('Login failed. Please check your credentials.');
     }
   };
 
-  const signOut = () => {
-    logout();
-    setAuthToken(null);
+  const signOut = async () => {
+    try {
+      setAuthLoading(true);
+      await logout();
+      setAuthToken(null);
+      setAuthLoading(false);
+    } catch (error) {
+      setAuthError('Logout failed. Please try again.');
+    }
   };
 
   const clearAuthError = () => {
@@ -35,7 +45,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ authToken, login: signIn, logout: signOut, authError, clearAuthError }}>
+    <AuthContext.Provider value={{ authLoading, authToken, login: signIn, logout: signOut, authError, clearAuthError }}>
       {children}
     </AuthContext.Provider>
   );

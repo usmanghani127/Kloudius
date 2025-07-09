@@ -1,4 +1,4 @@
-import { AppButton, ScreenWrapper } from '@components';
+import { AppButton, ErrorState, LoadingState, ScreenWrapper } from '@components';
 import { RouteKeys } from '@navigation/types';
 import { AppTheme } from '@theme';
 import React from 'react';
@@ -8,30 +8,41 @@ import { useAuth } from '../../authentication/contexts/authContext';
 
 export const Home: React.FC = () => {
   const { t } = useTranslation();
-  const { logout } = useAuth();
+  const { logout, authError, clearAuthError, authLoading } = useAuth();
 
   const firstName = 'Raja';
   const lastName = 'Usman';
   const email = 'rajausman127official@gmail.com';
 
   return (
-    <ScreenWrapper screen={RouteKeys.HOME}>
-      <View style={styles.container}>
-        <View style={styles.detail}>
-          <Text style={styles.label}>{t('home.firstName')}:</Text>
-          <Text style={styles.value}>{firstName}</Text>
+    <>
+      <ScreenWrapper screen={RouteKeys.HOME}>
+        <View style={styles.container}>
+          <View style={styles.detail}>
+            <Text style={styles.label}>{t('home.firstName')}:</Text>
+            <Text style={styles.value}>{firstName}</Text>
+          </View>
+          <View style={styles.detail}>
+            <Text style={styles.label}>{t('home.lastName')}:</Text>
+            <Text style={styles.value}>{lastName}</Text>
+          </View>
+          <View style={styles.detail}>
+            <Text style={styles.label}>{t('home.email')}:</Text>
+            <Text style={styles.value}>{email}</Text>
+          </View>
         </View>
-        <View style={styles.detail}>
-          <Text style={styles.label}>{t('home.lastName')}:</Text>
-          <Text style={styles.value}>{lastName}</Text>
-        </View>
-        <View style={styles.detail}>
-          <Text style={styles.label}>{t('home.email')}:</Text>
-          <Text style={styles.value}>{email}</Text>
-        </View>
-      </View>
-      <AppButton testID={`${RouteKeys.HOME}: logoutButton`} onPress={logout} label={t('home.logout')} />
-    </ScreenWrapper>
+        <AppButton testID={`${RouteKeys.HOME}: logoutButton`} onPress={logout} label={t('home.logout')} />
+      </ScreenWrapper>
+      <LoadingState visible={authLoading} testID={`${RouteKeys.HOME}: loadingState`} />
+      <ErrorState
+        testID={`${RouteKeys.SIGNUP}: errorState`}
+        visible={!!authError}
+        title={t('signup.error.title')}
+        message={authError ?? ''}
+        actionButtonText={t('signup.error.button')}
+        actionButtonOnPress={clearAuthError}
+      />
+    </>
   );
 };
 

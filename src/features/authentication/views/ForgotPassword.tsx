@@ -11,7 +11,7 @@ import { ForgotPasswordInputFieldFormKeys } from '../types';
 
 export const ForgotPassword = () => {
   const { t } = useTranslation();
-  const { authError, clearAuthError } = useAuth();
+  const { authError, clearAuthError, authLoading } = useAuth();
   const { goBack } = useNavigation<StackScreenProps<RouteKeys.FORGOT_PASSWORD>>();
   const {
     handleSubmit,
@@ -21,7 +21,6 @@ export const ForgotPassword = () => {
     mode: 'onSubmit',
     defaultValues: { email: '' },
   });
-  const isLoading = false;
 
   const onSubmit = () => {
     Alert.alert('Forgot Password', 'Password reset link sent!');
@@ -56,7 +55,7 @@ export const ForgotPassword = () => {
           label={t('forgotPassword.backToLoginButton')}
         />
       </ScreenWrapper>
-      <LoadingState visible={isLoading} testID={`${RouteKeys.FORGOT_PASSWORD}: loadingState`} />
+      <LoadingState visible={authLoading} testID={`${RouteKeys.FORGOT_PASSWORD}: loadingState`} />
       <ErrorState
         testID={`${RouteKeys.FORGOT_PASSWORD}: errorState`}
         visible={!!authError}
