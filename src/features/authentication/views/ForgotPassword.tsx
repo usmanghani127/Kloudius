@@ -1,6 +1,7 @@
-import { AppButton, ErrorState, InputField, LoadingState, ScreenWrapper } from '@components';
+import { AppButton, InputField, LoadingState, ScreenWrapper } from '@components';
 import { RouteKeys, StackScreenProps } from '@navigation/types.ts';
 import { useNavigation } from '@react-navigation/native';
+import { InfoMessage } from 'common/components/ErrorState.tsx';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -56,7 +57,8 @@ export const ForgotPassword = () => {
         />
       </ScreenWrapper>
       <LoadingState visible={authLoading} testID={`${RouteKeys.FORGOT_PASSWORD}: loadingState`} />
-      <ErrorState
+      <InfoMessage
+        type="error"
         testID={`${RouteKeys.FORGOT_PASSWORD}: errorState`}
         visible={!!authError}
         title={t('forgotPassword.error.title')}

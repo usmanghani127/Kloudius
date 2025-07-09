@@ -1,23 +1,28 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import * as Keychain from 'react-native-keychain';
+import { LoginInputFieldFormKeys, SignupInputFieldFormKeys } from '../types';
 import { useAuthViewModel } from '../viewModels/authViewModel';
 
 type AuthContextType = {
   authToken: string | null;
   authError: string | null;
+  clearAuthError: () => void;
+  authSuccess: string | null;
+  clearAuthSuccess: () => void;
   authLoading: boolean;
   authInitialed: boolean;
-  clearAuthError: () => void;
-  login: (email: string, password: string) => Promise<void>;
+  login: (payload: LoginInputFieldFormKeys) => Promise<void>;
   logout: () => void;
+  signup: (payload: SignupInputFieldFormKeys) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const { login, logout } = useAuthViewModel();
+  const { login, logout, signup } = useAuthViewModel();
   const [authToken, setAuthToken] = useState<string | null>(null);
   const [authError, setAuthError] = useState<string | null>(null);
+  const [authSuccess, setAuthSuccess] = useState<string | null>(null);
   const [authLoading, setAuthLoading] = useState<boolean>(false);
   const [authInitialed, setAuthInitialized] = useState<boolean>(false);
 
@@ -37,10 +42,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
   }, []);
 
-  const signIn = async (email: string, password: string) => {
+  const signIn = async ({ email, password }: LoginInputFieldFormKeys) => {
     try {
       setAuthLoading(true);
-      const token = await login(email, password);
+      const token = await login({ email, password });
       setAuthToken(token);
       await Keychain.setGenericPassword(email, password);
     } catch (error) {
@@ -63,18 +68,37 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const signUp = async (payload: SignupInputFieldFormKeys) => {
+    try {
+      setAuthLoading(true);
+      await signup(payload);
+      setAuthSuccess('Account created successfully. Please log in.');
+    } catch (error) {
+      setAuthError('Error creating account. Please try again.');
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
   const clearAuthError = () => {
     setAuthError(null);
+  };
+
+  const clearAuthSuccess = () => {
+    setAuthSuccess(null);
   };
 
   return (
     <AuthContext.Provider
       value={{
         authInitialed,
+        authSuccess,
+        clearAuthSuccess,
         authLoading,
         authToken,
         login: signIn,
         logout: signOut,
+        signup: signUp,
         authError,
         clearAuthError,
       }}

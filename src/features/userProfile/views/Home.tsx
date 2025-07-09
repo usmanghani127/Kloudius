@@ -1,6 +1,7 @@
-import { AppButton, ErrorState, LoadingState, ScreenWrapper } from '@components';
+import { AppButton, LoadingState, ScreenWrapper } from '@components';
 import { RouteKeys } from '@navigation/types';
 import { AppTheme } from '@theme';
+import { InfoMessage } from 'common/components/ErrorState';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
@@ -34,7 +35,8 @@ export const Home: React.FC = () => {
         <AppButton testID={`${RouteKeys.HOME}: logoutButton`} onPress={logout} label={t('home.logout')} />
       </ScreenWrapper>
       <LoadingState visible={authLoading} testID={`${RouteKeys.HOME}: loadingState`} />
-      <ErrorState
+      <InfoMessage
+        type="error"
         testID={`${RouteKeys.SIGNUP}: errorState`}
         visible={!!authError}
         title={t('signup.error.title')}

@@ -48,6 +48,11 @@
       "title": "Yikes!",
       "button": "Try Again",
       "message": "Something went wrong"
+    },
+    "success": {
+      "title": "Success!",
+      "message": "Account created successfully. Please log in.",
+      "button": "Proceed to Login"
     }
   },
   "forgotPassword": {

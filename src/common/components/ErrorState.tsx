@@ -4,17 +4,18 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Modal, Text } from 'react-native-paper';
 
-type ErrorStateType = {
+type InfoMessageType = {
   visible: boolean;
   title: string;
   message: string;
   actionButtonOnPress: () => void;
   actionButtonText: string;
   testID: string;
+  type: 'error' | 'success';
 };
 
-export const ErrorState = (props: ErrorStateType) => {
-  const { testID, visible = false, title, message, actionButtonText, actionButtonOnPress = () => {} } = props;
+export const InfoMessage = (props: InfoMessageType) => {
+  const { testID, visible = false, type, title, message, actionButtonText, actionButtonOnPress = () => {} } = props;
 
   return (
     <Modal testID={testID} visible={visible} dismissable={false} style={styles.modal}>
@@ -24,7 +25,7 @@ export const ErrorState = (props: ErrorStateType) => {
         <AppButton
           onPress={actionButtonOnPress}
           style={styles.button}
-          buttonColor={AppTheme.red}
+          buttonColor={type === 'error' ? AppTheme.red : AppTheme.primary}
           label={actionButtonText}
         />
       </View>

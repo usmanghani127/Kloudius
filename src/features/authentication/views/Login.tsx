@@ -1,6 +1,7 @@
-import { AppButton, ErrorState, InputField, LoadingState, ScreenWrapper } from '@components';
+import { AppButton, InputField, LoadingState, ScreenWrapper } from '@components';
 import { RouteKeys, StackScreenProps } from '@navigation/types.ts';
 import { useNavigation } from '@react-navigation/native';
+import { InfoMessage } from 'common/components/ErrorState.tsx';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +11,7 @@ import { LoginInputFieldFormKeys } from '../types.ts';
 
 export const Login = () => {
   const { t } = useTranslation();
-  const { login, authError, clearAuthError, authLoading } = useAuth();
+  const { login, authError, clearAuthError, authLoading, authSuccess, clearAuthSuccess } = useAuth();
   const { navigate } = useNavigation<StackScreenProps<RouteKeys.LOGIN>>();
   const {
     handleSubmit,
@@ -23,7 +24,11 @@ export const Login = () => {
     defaultValues: { email: 'test@example.com', password: 'Qwerty@123' },
   });
 
-  const onSubmit = () => login(watch('email'), watch('password'));
+  const onSubmit = () =>
+    login({
+      email: watch('email'),
+      password: watch('password'),
+    });
 
   return (
     <>
@@ -72,13 +77,14 @@ export const Login = () => {
         />
       </ScreenWrapper>
       <LoadingState visible={authLoading} testID={`${RouteKeys.LOGIN}: loadingState`} />
-      <ErrorState
-        testID={`${RouteKeys.LOGIN}: errorState`}
-        visible={!!authError}
-        title={t('login.error.title')}
-        message={authError ?? ''}
-        actionButtonText={t('login.error.button')}
-        actionButtonOnPress={clearAuthError}
+      <InfoMessage
+        type={authError ? 'error' : 'success'}
+        testID={`${(RouteKeys.LOGIN, ':', authError ? 'errorState' : 'successState')}`}
+        visible={!!authError || !!authSuccess}
+        title={t(authError ? 'login.error.title' : 'signup.success.title')}
+        message={authError ?? authSuccess ?? ''}
+        actionButtonText={t(authError ? 'login.error.button' : 'signup.success.button')}
+        actionButtonOnPress={authError ? clearAuthError : clearAuthSuccess}
       />
     </>
   );

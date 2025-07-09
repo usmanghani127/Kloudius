@@ -1,6 +1,7 @@
-import { AppButton, ErrorState, InputField, LoadingState, ScreenWrapper } from '@components';
+import { AppButton, InputField, LoadingState, ScreenWrapper } from '@components';
 import { RouteKeys, StackScreenProps } from '@navigation/types.ts';
 import { useNavigation } from '@react-navigation/native';
+import { InfoMessage } from 'common/components/ErrorState.tsx';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -10,18 +11,25 @@ import { SignupInputFieldFormKeys } from '../types.ts';
 
 export const Signup = () => {
   const { t } = useTranslation();
-  const { logout, authError, clearAuthError, authLoading } = useAuth();
+  const { signup, authError, clearAuthError, authLoading } = useAuth();
   const { goBack } = useNavigation<StackScreenProps<RouteKeys.SIGNUP>>();
   const {
     handleSubmit,
     control,
+    watch,
     formState: { errors },
     setFocus,
   } = useForm<SignupInputFieldFormKeys>({
     mode: 'onSubmit',
   });
 
-  const onSubmit = logout;
+  const onSubmit = () =>
+    signup({
+      firstName: watch('firstName'),
+      lastName: watch('lastName'),
+      email: watch('email'),
+      password: watch('password'),
+    });
 
   return (
     <>
@@ -92,7 +100,8 @@ export const Signup = () => {
         />
       </ScreenWrapper>
       <LoadingState visible={authLoading} testID={`${RouteKeys.SIGNUP}: loadingState`} />
-      <ErrorState
+      <InfoMessage
+        type="error"
         testID={`${RouteKeys.SIGNUP}: errorState`}
         visible={!!authError}
         title={t('signup.error.title')}

@@ -1,6 +1,7 @@
 import { RouteKeys, StackScreenProps } from '@navigation/types';
 import { useNavigation } from '@react-navigation/native';
 import * as authModel from '../models/authModel';
+import { LoginInputFieldFormKeys, SignupInputFieldFormKeys } from '../types';
 
 // Calls functions exported by models/authModel.ts
 // Returns response to contexts/authContext.tsx
@@ -8,11 +9,11 @@ import * as authModel from '../models/authModel';
 // This is the ViewModel layer in MVVM architecture
 
 export const useAuthViewModel = () => {
-  const { reset } = useNavigation<StackScreenProps<RouteKeys.LOGIN>>();
+  const { reset, goBack } = useNavigation<StackScreenProps<RouteKeys.LOGIN>>();
 
-  const login = async (email: string, password: string): Promise<string> => {
+  const login = async (payload: LoginInputFieldFormKeys): Promise<string> => {
     try {
-      const authToken = await authModel.login(email, password);
+      const authToken = await authModel.login(payload);
       reset({ index: 0, routes: [{ name: RouteKeys.HOME }] });
       return authToken;
     } catch (error: unknown) {
@@ -32,8 +33,19 @@ export const useAuthViewModel = () => {
     }
   };
 
+  const signup = async (payload: SignupInputFieldFormKeys): Promise<void> => {
+    try {
+      await authModel.signup(payload);
+      goBack();
+    } catch (error) {
+      console.error('useAuthViewModel: Signup failed:', error);
+      throw error;
+    }
+  };
+
   return {
     login,
     logout,
+    signup,
   };
 };
