@@ -1,15 +1,17 @@
 import { AppButton, ErrorState, InputField, LoadingState, ScreenWrapper } from '@components';
 import { RouteKeys, StackScreenProps } from '@navigation/types.ts';
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Alert } from 'react-native';
+import { useAuth } from '../contexts/authContext.tsx';
 import { regex } from '../regex.ts';
 import { ForgotPasswordInputFieldFormKeys } from '../types';
 
 export const ForgotPassword = () => {
   const { t } = useTranslation();
+  const { authError, clearAuthError } = useAuth();
   const { goBack } = useNavigation<StackScreenProps<RouteKeys.FORGOT_PASSWORD>>();
   const {
     handleSubmit,
@@ -19,7 +21,6 @@ export const ForgotPassword = () => {
     mode: 'onSubmit',
     defaultValues: { email: '' },
   });
-  const [errorMessage, setErrorMessage] = useState('');
   const isLoading = false;
 
   const onSubmit = () => {
@@ -58,11 +59,11 @@ export const ForgotPassword = () => {
       <LoadingState visible={isLoading} testID={`${RouteKeys.FORGOT_PASSWORD}: loadingState`} />
       <ErrorState
         testID={`${RouteKeys.FORGOT_PASSWORD}: errorState`}
-        visible={errorMessage?.length > 0}
+        visible={!!authError}
         title={t('forgotPassword.error.title')}
-        message={errorMessage}
+        message={authError ?? ''}
         actionButtonText={t('forgotPassword.error.button')}
-        actionButtonOnPress={() => setErrorMessage('')}
+        actionButtonOnPress={clearAuthError}
       />
     </>
   );

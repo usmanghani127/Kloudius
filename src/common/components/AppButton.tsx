@@ -23,7 +23,6 @@ export const AppButton = (props: AppButtonType) => {
 const styles = StyleSheet.create({
   button: {
     marginVertical: 10,
-    marginHorizontal: 40,
     width: '75%',
   },
   primaryButton: {

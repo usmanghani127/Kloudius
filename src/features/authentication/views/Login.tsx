@@ -1,29 +1,31 @@
 import { AppButton, ErrorState, InputField, LoadingState, ScreenWrapper } from '@components';
 import { RouteKeys, StackScreenProps } from '@navigation/types.ts';
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../contexts/authContext.tsx';
 import { regex } from '../regex.ts';
 import { LoginInputFieldFormKeys } from '../types.ts';
 
 export const Login = () => {
   const { t } = useTranslation();
-  const { navigate, reset } = useNavigation<StackScreenProps<RouteKeys.LOGIN>>();
+  const { login, authError, clearAuthError } = useAuth();
+  const { navigate } = useNavigation<StackScreenProps<RouteKeys.LOGIN>>();
   const {
     handleSubmit,
     control,
     formState: { errors },
     setFocus,
+    watch,
   } = useForm<LoginInputFieldFormKeys>({
     mode: 'onSubmit',
-    defaultValues: { email: 'rajausman127@gmail.com', password: 'Qwerty@123' },
+    defaultValues: { email: 'test@example.com', password: 'Qwerty@123' },
   });
-  const [errorMessage, setErrorMessage] = useState('');
 
   const isLoading = false;
 
-  const onSubmit = () => reset({ index: 0, routes: [{ name: RouteKeys.HOME }] });
+  const onSubmit = () => login(watch('email'), watch('password'));
 
   return (
     <>
@@ -74,11 +76,11 @@ export const Login = () => {
       <LoadingState visible={isLoading} testID={`${RouteKeys.LOGIN}: loadingState`} />
       <ErrorState
         testID={`${RouteKeys.LOGIN}: errorState`}
-        visible={errorMessage?.length > 0}
+        visible={!!authError}
         title={t('login.error.title')}
-        message={errorMessage}
+        message={authError ?? ''}
         actionButtonText={t('login.error.button')}
-        actionButtonOnPress={() => setErrorMessage('')}
+        actionButtonOnPress={clearAuthError}
       />
     </>
   );

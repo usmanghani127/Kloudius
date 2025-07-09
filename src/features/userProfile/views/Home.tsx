@@ -1,14 +1,14 @@
 import { AppButton, ScreenWrapper } from '@components';
-import { RouteKeys, StackScreenProps } from '@navigation/types';
-import { useNavigation } from '@react-navigation/native';
+import { RouteKeys } from '@navigation/types';
 import { AppTheme } from '@theme';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
+import { useAuth } from '../../authentication/contexts/authContext';
 
 export const Home: React.FC = () => {
   const { t } = useTranslation();
-  const { reset } = useNavigation<StackScreenProps<RouteKeys.HOME>>();
+  const { logout } = useAuth();
 
   const firstName = 'Raja';
   const lastName = 'Usman';
@@ -30,11 +30,7 @@ export const Home: React.FC = () => {
           <Text style={styles.value}>{email}</Text>
         </View>
       </View>
-      <AppButton
-        testID={`${RouteKeys.HOME}: logoutButton`}
-        onPress={() => reset({ index: 0, routes: [{ name: RouteKeys.LOGIN }] })}
-        label={t('home.logout')}
-      />
+      <AppButton testID={`${RouteKeys.HOME}: logoutButton`} onPress={logout} label={t('home.logout')} />
     </ScreenWrapper>
   );
 };

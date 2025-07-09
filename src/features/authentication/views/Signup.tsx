@@ -1,15 +1,16 @@
 import { AppButton, ErrorState, InputField, LoadingState, ScreenWrapper } from '@components';
 import { RouteKeys, StackScreenProps } from '@navigation/types.ts';
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Alert } from 'react-native';
+import { useAuth } from '../contexts/authContext.tsx';
 import { regex } from '../regex.ts';
 import { SignupInputFieldFormKeys } from '../types.ts';
 
 export const Signup = () => {
   const { t } = useTranslation();
+  const { logout, authError, clearAuthError } = useAuth();
   const { goBack } = useNavigation<StackScreenProps<RouteKeys.SIGNUP>>();
   const {
     handleSubmit,
@@ -19,11 +20,10 @@ export const Signup = () => {
   } = useForm<SignupInputFieldFormKeys>({
     mode: 'onSubmit',
   });
-  const [errorMessage, setErrorMessage] = useState('');
 
   const isLoading = false;
 
-  const onSubmit = () => Alert.alert('Login', 'Register User');
+  const onSubmit = logout;
 
   return (
     <>
@@ -96,11 +96,11 @@ export const Signup = () => {
       <LoadingState visible={isLoading} testID={`${RouteKeys.SIGNUP}: loadingState`} />
       <ErrorState
         testID={`${RouteKeys.SIGNUP}: errorState`}
-        visible={errorMessage?.length > 0}
+        visible={!!authError}
         title={t('signup.error.title')}
-        message={errorMessage}
+        message={authError ?? ''}
         actionButtonText={t('signup.error.button')}
-        actionButtonOnPress={() => setErrorMessage('')}
+        actionButtonOnPress={clearAuthError}
       />
     </>
   );

@@ -21,7 +21,12 @@ export const ErrorState = (props: ErrorStateType) => {
       <View style={styles.background}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.message}>{message}</Text>
-        <AppButton onPress={actionButtonOnPress} buttonColor={AppTheme.red} label={actionButtonText} />
+        <AppButton
+          onPress={actionButtonOnPress}
+          style={styles.button}
+          buttonColor={AppTheme.red}
+          label={actionButtonText}
+        />
       </View>
     </Modal>
   );
@@ -30,6 +35,9 @@ export const ErrorState = (props: ErrorStateType) => {
 const styles = StyleSheet.create({
   modal: {
     justifyContent: 'flex-end',
+  },
+  button: {
+    width: '100%',
   },
   background: {
     backgroundColor: AppTheme.white,
