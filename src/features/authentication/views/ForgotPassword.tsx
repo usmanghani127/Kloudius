@@ -1,14 +1,12 @@
-import { AppButton, ErrorState, InputField, LoadingState } from '@components';
+import { AppButton, ErrorState, InputField, LoadingState, ScreenWrapper } from '@components';
 import { RouteKeys, StackScreenProps } from '@navigation/types.ts';
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Alert, SafeAreaView } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Alert } from 'react-native';
 import { regex } from '../regex.ts';
 import { ForgotPasswordInputFieldFormKeys } from '../types';
-import styles from './styles';
 
 export const ForgotPassword = () => {
   const { t } = useTranslation();
@@ -30,12 +28,8 @@ export const ForgotPassword = () => {
   };
 
   return (
-    <SafeAreaView style={styles.background} testID={`${RouteKeys.FORGOT_PASSWORD}: background`}>
-      <KeyboardAwareScrollView
-        testID={`${RouteKeys.FORGOT_PASSWORD}: wrapper`}
-        contentContainerStyle={styles.wrapper}
-        showsVerticalScrollIndicator={false}
-      >
+    <>
+      <ScreenWrapper screen={RouteKeys.FORGOT_PASSWORD}>
         <InputField
           testID={`${RouteKeys.FORGOT_PASSWORD}: emailInputField`}
           name={'email'}
@@ -60,7 +54,7 @@ export const ForgotPassword = () => {
           onPress={goBack}
           label={t('forgotPassword.backToLoginButton')}
         />
-      </KeyboardAwareScrollView>
+      </ScreenWrapper>
       <LoadingState visible={isLoading} testID={`${RouteKeys.FORGOT_PASSWORD}: loadingState`} />
       <ErrorState
         testID={`${RouteKeys.FORGOT_PASSWORD}: errorState`}
@@ -70,6 +64,6 @@ export const ForgotPassword = () => {
         actionButtonText={t('forgotPassword.error.button')}
         actionButtonOnPress={() => setErrorMessage('')}
       />
-    </SafeAreaView>
+    </>
   );
 };

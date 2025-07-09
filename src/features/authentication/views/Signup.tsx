@@ -1,14 +1,12 @@
-import { AppButton, ErrorState, InputField, LoadingState } from '@components';
+import { AppButton, ErrorState, InputField, LoadingState, ScreenWrapper } from '@components';
 import { RouteKeys, StackScreenProps } from '@navigation/types.ts';
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Alert, SafeAreaView } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Alert } from 'react-native';
 import { regex } from '../regex.ts';
 import { SignupInputFieldFormKeys } from '../types.ts';
-import styles from './styles.ts';
 
 export const Signup = () => {
   const { t } = useTranslation();
@@ -28,12 +26,8 @@ export const Signup = () => {
   const onSubmit = () => Alert.alert('Login', 'Register User');
 
   return (
-    <SafeAreaView style={styles.background} testID={`${RouteKeys.SIGNUP}: background`}>
-      <KeyboardAwareScrollView
-        testID={`${RouteKeys.SIGNUP}: wrapper`}
-        contentContainerStyle={styles.wrapper}
-        showsVerticalScrollIndicator={false}
-      >
+    <>
+      <ScreenWrapper screen={RouteKeys.SIGNUP}>
         <InputField
           testID={`${RouteKeys.SIGNUP}: firstNameInputField`}
           name={'firstName'}
@@ -98,7 +92,7 @@ export const Signup = () => {
           onPress={goBack}
           label={t('signup.backToLoginButton')}
         />
-      </KeyboardAwareScrollView>
+      </ScreenWrapper>
       <LoadingState visible={isLoading} testID={`${RouteKeys.SIGNUP}: loadingState`} />
       <ErrorState
         testID={`${RouteKeys.SIGNUP}: errorState`}
@@ -108,6 +102,6 @@ export const Signup = () => {
         actionButtonText={t('signup.error.button')}
         actionButtonOnPress={() => setErrorMessage('')}
       />
-    </SafeAreaView>
+    </>
   );
 };
