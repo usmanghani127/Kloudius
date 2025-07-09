@@ -1,6 +1,7 @@
 import { Authentication, UserProfile } from '@features';
 import { useLocalization } from '@localization/useLocalization';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useAuth } from 'features/authentication/contexts/authContext';
 import React from 'react';
 import { RouteKeys, StackNavigatorParamList } from './types';
 
@@ -8,10 +9,11 @@ const Stack = createNativeStackNavigator<StackNavigatorParamList>();
 
 export const StackNavigator = () => {
   useLocalization();
+  const { authToken, authInitialed } = useAuth();
 
-  return (
+  return authInitialed ? (
     <Stack.Navigator
-      initialRouteName={'Login'}
+      initialRouteName={authToken ? 'Home' : 'Login'}
       screenOptions={{
         headerShown: false,
       }}
@@ -21,5 +23,7 @@ export const StackNavigator = () => {
       <Stack.Screen name={RouteKeys.FORGOT_PASSWORD} component={Authentication.ForgotPasswordScreen} />
       <Stack.Screen name={RouteKeys.HOME} component={UserProfile.HomeScreen} />
     </Stack.Navigator>
+  ) : (
+    <></>
   );
 };

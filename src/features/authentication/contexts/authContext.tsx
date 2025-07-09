@@ -1,10 +1,12 @@
-import { ReactNode, createContext, useContext, useState } from 'react';
+import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import * as Keychain from 'react-native-keychain';
 import { useAuthViewModel } from '../viewModels/authViewModel';
 
 type AuthContextType = {
   authToken: string | null;
   authError: string | null;
   authLoading: boolean;
+  authInitialed: boolean;
   clearAuthError: () => void;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
@@ -17,15 +19,34 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [authToken, setAuthToken] = useState<string | null>(null);
   const [authError, setAuthError] = useState<string | null>(null);
   const [authLoading, setAuthLoading] = useState<boolean>(false);
+  const [authInitialed, setAuthInitialized] = useState<boolean>(false);
+
+  useEffect(() => {
+    Keychain.getGenericPassword()
+      .then((credentials) => {
+        if (credentials) {
+          console.log('Credentials loaded from Keychain');
+          setAuthToken(credentials.password);
+        }
+      })
+      .catch((error) => {
+        console.error('Failed to load credentials from Keychain:', error);
+      })
+      .finally(() => {
+        setAuthInitialized(true);
+      });
+  }, []);
 
   const signIn = async (email: string, password: string) => {
     try {
       setAuthLoading(true);
       const token = await login(email, password);
       setAuthToken(token);
-      setAuthLoading(false);
+      await Keychain.setGenericPassword(email, password);
     } catch (error) {
-      setAuthError('Login failed. Please check your credentials.');
+      setAuthError(error instanceof Error ? error.message : 'Login failed. Please try again.');
+    } finally {
+      setAuthLoading(false);
     }
   };
 
@@ -34,9 +55,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setAuthLoading(true);
       await logout();
       setAuthToken(null);
-      setAuthLoading(false);
+      await Keychain.resetGenericPassword();
     } catch (error) {
       setAuthError('Logout failed. Please try again.');
+    } finally {
+      setAuthLoading(false);
     }
   };
 
@@ -45,7 +68,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ authLoading, authToken, login: signIn, logout: signOut, authError, clearAuthError }}>
+    <AuthContext.Provider
+      value={{
+        authInitialed,
+        authLoading,
+        authToken,
+        login: signIn,
+        logout: signOut,
+        authError,
+        clearAuthError,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
