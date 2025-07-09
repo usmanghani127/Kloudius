@@ -64,5 +64,11 @@
       "button": "Try Again",
       "message": "Something went wrong"
     }
+  },
+  "home": {
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "logout": "Logout"
   }
 }

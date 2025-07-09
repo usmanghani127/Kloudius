@@ -4,13 +4,12 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Alert } from 'react-native';
 import { regex } from '../regex.ts';
 import { LoginInputFieldFormKeys } from '../types.ts';
 
 export const Login = () => {
   const { t } = useTranslation();
-  const { navigate } = useNavigation<StackScreenProps<RouteKeys.LOGIN>>();
+  const { navigate, reset } = useNavigation<StackScreenProps<RouteKeys.LOGIN>>();
   const {
     handleSubmit,
     control,
@@ -24,7 +23,7 @@ export const Login = () => {
 
   const isLoading = false;
 
-  const onSubmit = () => Alert.alert('Login', 'Authenticate User');
+  const onSubmit = () => reset({ index: 0, routes: [{ name: RouteKeys.HOME }] });
 
   return (
     <>
@@ -63,7 +62,6 @@ export const Login = () => {
         <AppButton
           testID={`${RouteKeys.LOGIN}: loginButton`}
           onPress={handleSubmit(onSubmit)}
-          // disabled={!isValid}
           label={t('login.loginButton')}
         />
         <AppButton

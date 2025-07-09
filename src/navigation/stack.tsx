@@ -1,4 +1,4 @@
-import { Authentication } from '@features';
+import { Authentication, UserProfile } from '@features';
 import { useLocalization } from '@localization/useLocalization';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
@@ -19,6 +19,7 @@ export const StackNavigator = () => {
       <Stack.Screen name={RouteKeys.SIGNUP} component={Authentication.SignupScreen} />
       <Stack.Screen name={RouteKeys.LOGIN} component={Authentication.LoginScreen} />
       <Stack.Screen name={RouteKeys.FORGOT_PASSWORD} component={Authentication.ForgotPasswordScreen} />
+      <Stack.Screen name={RouteKeys.HOME} component={UserProfile.HomeScreen} />
     </Stack.Navigator>
   );
 };
