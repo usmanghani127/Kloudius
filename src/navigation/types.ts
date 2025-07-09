@@ -4,12 +4,14 @@ export type StackNavigatorParamList = {
   Landing: undefined;
   Login: undefined;
   Signup: undefined;
+  ForgotPassword: undefined;
 };
 
 export enum RouteKeys {
   LANDING = 'Landing',
   LOGIN = 'Login',
   SIGNUP = 'Signup',
+  FORGOT_PASSWORD = 'ForgotPassword',
 }
 
 export type StackScreenProps<RouteKey extends keyof StackNavigatorParamList> = NativeStackNavigationProp<

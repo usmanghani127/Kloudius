@@ -1,7 +1,8 @@
+import { AppButton } from '@components';
 import { AppTheme } from '@theme';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, Modal, Text } from 'react-native-paper';
+import { Modal, Text } from 'react-native-paper';
 
 type ErrorStateType = {
   visible: boolean;
@@ -20,15 +21,7 @@ export const ErrorState = (props: ErrorStateType) => {
       <View style={styles.background}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.message}>{message}</Text>
-        <Button
-          onPress={actionButtonOnPress}
-          mode={'contained'}
-          buttonColor={AppTheme.red}
-          style={styles.actionButton}
-          textColor={AppTheme.white}
-        >
-          {actionButtonText}
-        </Button>
+        <AppButton onPress={actionButtonOnPress} buttonColor={AppTheme.red} label={actionButtonText} />
       </View>
     </Modal>
   );
@@ -43,9 +36,6 @@ const styles = StyleSheet.create({
     marginBottom: -50,
     paddingVertical: 50,
     paddingHorizontal: 20,
-  },
-  actionButton: {
-    margin: 20,
   },
   title: {
     color: AppTheme.black,

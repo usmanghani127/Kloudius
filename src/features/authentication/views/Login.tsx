@@ -66,7 +66,7 @@ export const Login = () => {
         <AppButton
           type="secondary"
           testID={`${RouteKeys.LOGIN}: forgotPasswordButton`}
-          onPress={() => Alert.alert('Hang On', 'Navigate to forgot password screen')}
+          onPress={() => navigate(RouteKeys.FORGOT_PASSWORD)}
           label={t('login.forgotPasswordLabel')}
         />
         <AppButton

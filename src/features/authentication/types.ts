@@ -9,3 +9,7 @@ export type SignupInputFieldFormKeys = {
   email: string;
   password: string;
 };
+
+export type ForgotPasswordInputFieldFormKeys = {
+  email: string;
+};

@@ -22,10 +22,11 @@ export const AppButton = (props: AppButtonType) => {
 
 const styles = StyleSheet.create({
   button: {
-    margin: 10,
+    marginVertical: 10,
+    marginHorizontal: 40,
+    width: '75%',
   },
   primaryButton: {
-    alignSelf: 'stretch',
     borderRadius: 20,
   },
   label: {

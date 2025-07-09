@@ -18,6 +18,7 @@ export const StackNavigator = () => {
     >
       <Stack.Screen name={RouteKeys.SIGNUP} component={Authentication.SignupScreen} />
       <Stack.Screen name={RouteKeys.LOGIN} component={Authentication.LoginScreen} />
+      <Stack.Screen name={RouteKeys.FORGOT_PASSWORD} component={Authentication.ForgotPasswordScreen} />
     </Stack.Navigator>
   );
 };
